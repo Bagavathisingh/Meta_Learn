@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
 const Adminloginhandle = async (e) => {
     e.preventDefault();
     try {
-        const login = await createUserWithEmailAndPassword(Adminauth, username, password);
+        const login = await signInWithEmailAndPassword(Adminauth, username, password);
     } catch (error) {
         alert(error.message);
     }
