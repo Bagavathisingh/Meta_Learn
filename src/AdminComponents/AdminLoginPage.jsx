@@ -3,7 +3,7 @@ import { Adminauth} from "../../AdminFireBaseConfig";
 import { useState,useEffect } from "react";
 import eyeOff from "../assets/VisibleOff.svg";
 import eyeOn from "../assets/VisibleOn.svg";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword,createUserWithEmailAndPassword} from "firebase/auth";
 export default function AdminLoginPage() {
   const [eye, seteye] = useState(false);
   const AdminKey = import.meta.env.VITE_ADMIN_KEY;
@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
 const Adminloginhandle = async (e) => {
     e.preventDefault();
     try {
-        const login = await signInWithEmailAndPassword(Adminauth, username, password);
+        const login = await createUserWithEmailAndPassword(Adminauth, username, password);
     } catch (error) {
         alert(error.message);
     }
