@@ -81,7 +81,7 @@ export default function AdminHomePage(){
                 <h1 className="inline text-4xl mr-20 p-3 font-semibold font-serif uppercase"><span className="text-red-600">ad</span>min <span className="text-red-600">bo</span>ard</h1>
               </div>
               <div className="flex justify-center mr-20 items-center ">
-                <ul className="flex select-none gap-10 font-serif ">
+                <ul className="flex text-white font-bold select-none gap-10 font-serif ">
                   <li className={`text-lg px-5 cursor-pointer rounded-lg hover:bg-red-600 hover:text-white transition duration-500 ease-in-out ${ location.pathname === "/adminhome" ? "text-red-600":""}`}  onClick={()=>{goTo('/adminhome')}}>Users</li>
                   <li className={`text-lg px-5 cursor-pointer rounded-lg hover:bg-red-600 hover:text-white transition duration-500 ease-in-out ${ location.pathname ==="/adminhome/adminsub" ? "text-red-600":""}`} onClick={()=>{goTo('/adminhome/adminsub')}}>Subjects</li>
                   <li className={`text-lg px-5 cursor-pointer rounded-lg hover:bg-red-600 hover:text-white transition duration-500 ease-in-out ${ location.pathname === "/adminhome/admincourse" ? "text-red-600":""}`}  onClick={()=>{goTo('/adminhome/admincourse')}}>Courses</li>
