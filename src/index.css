@@ -1,0 +1,20 @@
+@import "tailwindcss";
+html{
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100%;
+    width: 100%;
+    background:linear-gradient(160deg,rgb(1, 97, 136),rgb(2, 48, 94),rgb(18, 18, 73));
+    background-repeat:no-repeat;
+    background-size: cover;
+}
+
+    /* --------aboutPage_style---------- */
+
+html::-webkit-scrollbar{
+    display: none;
+}
+html{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
