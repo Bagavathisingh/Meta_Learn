@@ -271,6 +271,6 @@ app.delete('/subjectsDelete/:id', async(req,res) => {
     }
 });
 
-app.listen(PORT,()=>{
+app.listen(PORT,'0.0.0.0',()=>{
     console.log(`The server is running port ${PORT} `)
 });
