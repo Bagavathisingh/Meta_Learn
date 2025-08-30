@@ -30,8 +30,8 @@ export default function Register(){
     return(
         <>
         <div id="loginBack" className=" bg-blue-100 h-230 w-full shirnk-1 flex flex-col justify-center items-center">
-            <div className="drop-shadow rounded-lg h-130 w-110 p-10 md:h-100 md:w-150 mb-20 flex justify-center items-center">
-                <h1 className="absolute mb-85 mr-50 text-6xl -m-10 md:mt-10 md:-ml-30 font-serif cursor-default ">SignUp</h1>
+            <div className="drop-shadow rounded-lg h-130 w-100 p-10 md:h-100 md:w-150 mb-20 flex justify-center items-center">
+                <h1 className="absolute mb-85 mr-40 text-6xl -m-10 md:mt-10 md:-ml-30 font-serif cursor-default">SignUp</h1>
                 <form onSubmit={SignUpHandle} className=" h-30 flex mb-10 flex-col justify-between gap-10 p-1">
                     <div className="h-10 w-100 border-b-2">
                     <input required onChange={(e)=>setusername(e.target.value)} className="p-2 h-10 w-full placeholder:text-black outline-none focus:placeholder-transparent transition duration-300 ease-in-out" type="mail" name="username" id="username" placeholder="Email"/>
