@@ -29,15 +29,15 @@ export default function Register(){
     }
     return(
         <>
-        <div id="loginBack" className=" bg-blue-100 h-230 w-full shirnk-1 flex flex-col justify-center items-center">
-            <div className="drop-shadow h-130 w-100 mt-10 md:-mt-10 p-10 md:p-0 md:h-100 md:w-150 mb-20 flex justify-center items-center rounded-lg">
+        <div id="loginBack" className="bg-blue-100 h-240 w-full shirnk-1 flex flex-col justify-center items-center">
+            <div className="odrop-shadow h-130 w-90 md:-mt-10 p-10 md:p-0 md:h-100 md:w-150 mb-20 flex justify-center items-center rounded-lg">
                 <h1 className="absolute mb-85 mr-40 text-6xl -m-10 md:mt-10 ml-10 md:-ml-30 font-serif cursor-default">SignUp</h1>
                 <form onSubmit={SignUpHandle} className=" h-30 flex mb-10 flex-col justify-between items-center gap-10 md:p-1">
-                    <div className="h-10 md:w-100 w-90 border-b-2">
+                    <div className="h-10 md:w-100 w-70 border-b-2">
                     <input required onChange={(e)=>setusername(e.target.value)} className="p-2 h-10 w-full placeholder:text-black outline-none focus:placeholder-transparent transition duration-300 ease-in-out" type="mail" name="username" id="username" placeholder="Email"/>
                     </div>
-                    <div  className="h-10 md:w-100 w-90 border-b-2">
-                        <div className=" absolute ml-79 mt-[7px]">
+                    <div  className="h-10 md:w-100 w-70 border-b-2">
+                        <div className=" absolute ml-63 mt-[7px]">
                             <button onClick={passShows} className="invert">
                                 {passShow?<img src={VisibleOn} />:<img src={VisibleOff}/>}
                             </button>
