@@ -7,16 +7,16 @@ import { Adminauth } from "../../AdminFireBaseConfig";
 export default function AdminHomePage(){
     const navigate = useNavigate();
     const location = useLocation();
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(Adminauth, (user) => {
-      if (!user) {
-        navigate("/adminlogin");
-      }
-    });
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(Adminauth, (user) => {
+  //     if (!user) {
+  //       navigate("/adminlogin");
+  //     }
+  //   });
 
 
-    return () => unsubscribe();
-  }, [auth, navigate]);
+  //   return () => unsubscribe();
+  // }, [auth, navigate]);
 
       const goTo = (path) => {
     if (location.pathname !== path) {

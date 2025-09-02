@@ -37,7 +37,7 @@ export default function Register(){
                     <input required onChange={(e)=>setusername(e.target.value)} className="p-2 h-10 w-full placeholder:text-black outline-none focus:placeholder-transparent transition duration-300 ease-in-out" type="mail" name="username" id="username" placeholder="Email"/>
                     </div>
                     <div  className="h-10 md:w-100 w-70 border-b-2">
-                        <div className=" absolute ml-63 mt-[7px]">
+                        <div className=" absolute ml-63 md:ml-89 mt-[7px]">
                             <button onClick={passShows} className="invert">
                                 {passShow?<img src={VisibleOn} />:<img src={VisibleOff}/>}
                             </button>

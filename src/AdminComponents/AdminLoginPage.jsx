@@ -41,8 +41,8 @@ useEffect(() => {
     }, []);
   return (
     <>
-      <div className="border md:h-196 h-220 overflow-y-hidden">
-        <div className="border h-full flex justify-center items-center ">
+      <div className=" md:h-196 h-220 overflow-y-hidden">
+        <div className="h-full flex justify-center items-center ">
           <form className="border w-100 h-120 flex flex-col drop-shadow p-10 gap-10 justify-between rounded-lg">
             <div className="text-4xl cursor-default font-serif font-bold">
               <h1>AdminLogin</h1>
