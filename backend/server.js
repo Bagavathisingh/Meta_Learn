@@ -9,13 +9,13 @@ const multer = require('multer');
 const path = require('path');
 const { type } = require('os');
 const { auth } = require("./firebaseAdmin");
+const {supabase} = require('./SupabaseClient');
 app.use(cors());
 app.use(express.json())
 app.use(bodyPraser.json())
 app.use(express.json({ limit: '200mb' }));
 app.use(express.urlencoded({ extended: true, limit: '200mb' }));
 
-// fire baseAuth Backend Api
 
 app.get("/", (req, res) => {
   res.send("Firebase Auth Backend is running!");
@@ -36,84 +36,60 @@ app.get("/auth-users", async (req, res) => {
   }
 });
 
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-const storage = multer.diskStorage({
-    destination:function(req,file,cb){
-        cb(null,'./uploads');
-    },
-    filename:function(req,file,cb){
-        const uniqueName = Date.now()+"- " + file.originalname;
-        cb(null,uniqueName);
-    }
-});
-
-const upload = multer({storage:storage,
-  limits: { fileSize: 200 * 1024 * 1024 } 
-});
-
-const uri = process.env.DBuri;
-mongoose.connect(uri,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-})
-.then(()=>{
-    console.log('DB is connected')
-})
-.catch((error)=>{
-    console.log(error);
-
-});
-
-// this is the subject based backend 
+mongoose.connect(process.env.DBuri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log('DB is connected'))
+.catch((err) => console.log(err));
 
 const subjectSchema = new mongoose.Schema({
-    subImageUrl:{
-        required:true,
-        type:String,
-    },
-    VideoUrl:{
-        required:true,
-        type:String,
-    },
-    subjectTopic:{
-        required:true,
-        type:String,
-    },
-    subjectDescription:{
-        required:true,
-        type:String,
-    },
-    MaterialPdf:{
-        required:true,
-        type:String,
-    },
-    QnPdf:{
-        required:true,
-        type:String,
-    },
-    CreatedAt:{
-        type:Date,
-        default:Date.now(),
-    }
-})
+    subImageUrl: { required:true, type:String },
+    VideoUrl: { required:true, type:String },
+    subjectTopic: { required:true, type:String },
+    subjectDescription: { required:true, type:String },
+    MaterialPdf: { required:true, type:String },
+    QnPdf: { required:true, type:String },
+    CreatedAt: { type: Date, default: Date.now }
+});
 
-const SubjectModel = mongoose.model('subjects',subjectSchema);
+const SubjectModel = mongoose.model('subjects', subjectSchema);
 
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 app.post('/uploadSubject', upload.fields([
-    { name: 'subImage'},
-    { name: 'MaterialPdf'},
+    { name: 'subImage' },
+    { name: 'MaterialPdf' },
     { name: 'QnPdf' }
 ]), async (req, res) => {
     const { subjectTopic, subjectDescription, VideoUrl } = req.body;
 
     try {
+       
+        const uploadToSupabase = async (file, folder) => {
+            if (!file) return '';
+            const fileName = Date.now() + '-' + file.originalname;
+            const { data, error } = await supabase.storage
+                .from('uploads') 
+                .upload(`${folder}/${fileName}`, file.buffer, {
+                    cacheControl: '3600',
+                    upsert: true,
+                    contentType: file.mimetype
+                });
+            if (error) throw error;
+            const { publicUrl } = supabase.storage.from('uploads').getPublicUrl(`${folder}/${fileName}`);
+            return publicUrl;
+        };
+
+        const subImageUrl = await uploadToSupabase(req.files['subImage'] ? req.files['subImage'][0] : null, 'images');
+        const materialPdfUrl = await uploadToSupabase(req.files['MaterialPdf'] ? req.files['MaterialPdf'][0] : null, 'pdfs');
+        const qnPdfUrl = await uploadToSupabase(req.files['QnPdf'] ? req.files['QnPdf'][0] : null, 'pdfs');
+
         const newSubject = new SubjectModel({
-            subImageUrl: req.files['subImage'] ? `/uploads/${req.files['subImage'][0].filename}` : '',
-            MaterialPdf: req.files['MaterialPdf'] ? `/uploads/${req.files['MaterialPdf'][0].filename}` : '',
-            QnPdf: req.files['QnPdf'] ? `/uploads/${req.files['QnPdf'][0].filename}` : '',
+            subImageUrl,
+            MaterialPdf: materialPdfUrl,
+            QnPdf: qnPdfUrl,
             VideoUrl,
             subjectTopic,
             subjectDescription
@@ -121,13 +97,14 @@ app.post('/uploadSubject', upload.fields([
 
         await newSubject.save();
         res.status(201).json(newSubject);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
     }
 });
 
-
+// Get all subjects
 app.get('/get-subjects', async (req, res) => {
     try {
         const subjects = await SubjectModel.find();
@@ -137,20 +114,17 @@ app.get('/get-subjects', async (req, res) => {
     }
 });
 
+// Get subject by ID
 app.get('/get_subjects/:id', async (req, res) => {
     const id = req.params.id;
     try {
         const subjects = await SubjectModel.findById(id);
-        if (!subjects) {
-            return res.status(404).json({ message: "Subject not found" }); // Added return
-        }
+        if (!subjects) return res.status(404).json({ message: "Subject not found" });
         res.status(200).json(subjects);
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: error.message });
     }
 });
-
 
 const itemSchema = new mongoose.Schema({
     imageUrl:{
