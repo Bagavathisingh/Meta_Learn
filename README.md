@@ -33,6 +33,7 @@ cd MetaLearn
 ```bash
 cd client  # or your frontend folder
 npm install
+npm install firebase
 npm run dev  # or npm start
 ```
 
@@ -47,6 +48,7 @@ http://localhost:5173
 ```bash
 cd backend
 npm install
+npm install firebase-admin
 npm run dev
 ```
 
