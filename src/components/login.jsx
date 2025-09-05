@@ -26,13 +26,13 @@ export default function Login(){
             alert(error);
         }
     }
-    // useEffect(()=>{
-    //     onAuthStateChanged(auth,(user)=>{
-    //     if(user){
-    //         Navigate("home",{replace:true});
-    //     }
-    // });
-    //     },[]);
+    useEffect(()=>{
+        onAuthStateChanged(auth,(user)=>{
+        if(user){
+            Navigate("home",{replace:true});
+        }
+    });
+        },[]);
     return(
         <>
         <div id="loginBack" className=" bg-blue-100 h-240 w-full shirnk-1 flex flex-col justify-center items-center">
